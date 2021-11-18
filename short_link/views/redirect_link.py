@@ -8,4 +8,4 @@ def redirect_link(request,link):
     success, msg = Links.objects.get_url(link)
     if not success:
         return HttpResponse(msg)
-    return redirect(request,msg)
+    return redirect(msg)
