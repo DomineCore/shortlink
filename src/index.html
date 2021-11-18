@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" href="{% static "logo.png" %}" type="image/x-icon" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>短链生成器</title>
+    <style>
+        body{
+            padding:0;
+        }
+        .page{
+            background-color: #2f3542;
+            height:100vh;
+            width:100%;
+            margin:0;
+            display:flex;
+            justify-content:center;
+            align-items:center;
+        }
+        .main{
+            background-color: #fff;
+            width:30%;
+            margin-top: -10vh;
+            height:30%;
+            display: flex;
+            flex-direction: column;
+            align-items:center;
+            justify-content:space-around;
+            /* height:80%; */
+            padding:40%;
+        }
+        .title{
+            font-size: xx-large;
+            font-weight: lighter;
+            letter-spacing:1px;
+        }
+        input{
+            border:none;
+            outline:none;
+            border: 2px solid aqua;
+            height:20px;
+        }
+        .btn{
+            cursor:pointer;
+        }
+        .btn span{
+            height:10px;
+            background-color: #95a5a6;
+            padding:2px;
+            border-radius:2px;
+            letter-spacing: 2px;
+        }
+    </style>
+</head>
+<body>
+    <div class="page">
+        <div class="main">
+            <span class=title>
+                欢迎使用短链接生成器
+            </span>
+            <div>
+                <input id="targetUrl" class="input" type="text">
+                <a id="btn" class="btn">
+                    <span>生成短链</span>
+                </a>
+            </div>
+        </div>
+    </div>
+</body>
+
+<script src="{% static 'js/jquery.js' %}"></script>
+<script>
+    let tn = document.getElementById('btn');
+ 
+    tn.addEventListener('click', function(e) {
+        // 获取url
+        var targetUrl = document.getElementById("targetUrl").value
+        if (!targetUrl){
+            return
+        }
+        $.ajax({
+            url:"/build/?targeturl="+targetUrl, success:function(result){
+                console.log(result)
+                if (result["result"]) {
+                    let siteurl = location.href
+                    alert(siteurl + "to/" + result["data"] + "/")
+                } else {
+                    alert(result["message"])
+                }
+            }
+        })
+        e.stopPropagation();//取消事件冒泡
+    })
+
+</script>
+</html>
